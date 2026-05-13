@@ -1,0 +1,26 @@
+# Build outputs
+**/bin/
+**/obj/
+
+# Visual Studio/VS Code
+.vs/
+.vscode/
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+
+# Rider/IntelliJ
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# App settings (keep base appsettings.json, ignore env-specific overrides)
+**/appsettings.*.json
+!**/appsettings.json
+
