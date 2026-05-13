@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="StudentGrade.API/StudentGrade.API.csproj" Id="dc052554-12d9-4043-a38b-212ecd922133" />
+  <Project Path="StudentGrade.Application/StudentGrade.Application.csproj" Id="4c3bc5d9-7d29-4445-89b6-ca3a7755ee44" />
+  <Project Path="StudentGrade.Core/StudentGrade.Core.csproj" Id="65863ada-4363-4a02-b7d8-10e4505d1608" />
+  <Project Path="StudentGrade.Infrastructure/StudentGrade.Infrastructure.csproj" Id="ef11621c-0def-4923-ba25-6d7d4ec82389" />
+  <Project Path="StudentGrade.SharedKernel/StudentGrade.SharedKernel.csproj" Id="b5cda271-7a63-4826-86ad-eff89e8de9e1" />
+</Solution>
