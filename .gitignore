@@ -2,7 +2,12 @@
 **/bin/
 **/obj/
 
-# Visual Studio/VS Code
+# NuGet
+*.nupkg
+packages/
+.nuget/
+
+# Visual Studio / VS Code
 .vs/
 .vscode/
 *.user
@@ -10,7 +15,7 @@
 *.suo
 *.sln.docstates
 
-# Rider/IntelliJ
+# Rider / IntelliJ
 .idea/
 
 # OS files
@@ -20,7 +25,14 @@ Thumbs.db
 # Logs
 *.log
 
-# App settings (keep base appsettings.json, ignore env-specific overrides)
+# Generated files
+*.cache
+*.g.cs
+*.generated.cs
+
+# Test results
+TestResults/
+
+# App settings
 **/appsettings.*.json
 !**/appsettings.json
-

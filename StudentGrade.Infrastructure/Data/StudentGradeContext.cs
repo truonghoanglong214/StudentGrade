@@ -179,6 +179,9 @@ public partial class StudentGradeContext : DbContext
             entity.Property(e => e.Username)
                 .IsRequired()
                 .HasMaxLength(100);
+            entity.Property(e => e.Role)
+            .IsRequired()
+            .HasMaxLength(255);
         });
 
         OnModelCreatingPartial(modelBuilder);
