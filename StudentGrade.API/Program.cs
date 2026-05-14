@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using StudentGrade.Infrastructure.Data;
+using StudentGrade.API.Configurations;
+using StudentGrade.API.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,9 +10,14 @@ builder.Services.AddDbContext<StudentGradeContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+// Custom Configurations
+builder.Services.AddApplicationServices();
+builder.Services.AddJwtAuthentication(builder.Configuration);
+builder.Services.AddSwaggerGenWithAuth();
 
 var app = builder.Build();
 
@@ -21,8 +28,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<GlobalExceptionMiddleware>();
+
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

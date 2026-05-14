@@ -1,4 +1,4 @@
-﻿using StudentGrade.Core.Models;
+using StudentGrade.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +12,6 @@ namespace StudentGrade.Application.Interfaces.IRepositories
         Task AddUserAsync(User user);
         Task<bool> IsUsernameExists(string userName);
         Task<User?> GetUserByIdAsync(Guid id);
-
+        Task<User?> GetUserByUsernameAsync(string username);
     }
 }
