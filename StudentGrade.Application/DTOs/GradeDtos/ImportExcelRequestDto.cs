@@ -9,7 +9,7 @@ namespace StudentGrade.Application.DTOs.GradeDtos
         public IFormFile File { get; set; } = null!;
 
         [Required]
-        public Guid SubjectId { get; set; }
+        public string SubjectCode { get; set; } = string.Empty;
 
         [Required]
         public Guid AssessmentId { get; set; }  

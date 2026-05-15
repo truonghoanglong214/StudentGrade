@@ -1,9 +1,12 @@
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
 using StudentGrade.Infrastructure.Data;
 using StudentGrade.API.Configurations;
 using StudentGrade.API.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
+
+ExcelPackage.License.SetNonCommercialPersonal("StudentGrade");
 
 // Add services to the container.
 builder.Services.AddDbContext<StudentGradeContext>(options =>
