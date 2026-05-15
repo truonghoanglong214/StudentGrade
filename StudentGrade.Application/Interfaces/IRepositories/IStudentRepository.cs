@@ -12,5 +12,6 @@ namespace StudentGrade.Application.Interfaces.IRepositories
         Task<List<Student>> GetByClassNameWithScoresAsync(string className);
         Task AddRangeAsync(List<Student> students);
         Task UpdateAsync(Student student);
+        Task<bool?> IsRollNumberExists(string rollNumber);
     }
 }

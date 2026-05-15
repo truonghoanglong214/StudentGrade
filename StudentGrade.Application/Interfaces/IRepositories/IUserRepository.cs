@@ -13,5 +13,6 @@ namespace StudentGrade.Application.Interfaces.IRepositories
         Task<bool> IsUsernameExists(string userName);
         Task<User?> GetUserByIdAsync(Guid id);
         Task<User?> GetUserByUsernameAsync(string username);
+        
     }
 }

@@ -37,6 +37,11 @@ namespace StudentGrade.Infrastructure.Repositories
             return await _context.Students.FirstOrDefaultAsync(s => s.RollNumber == rollNumber);
         }
 
+        public async Task<bool?> IsRollNumberExists(string rollNumber)
+        {
+            return await _context.Students.AnyAsync(x => x.RollNumber == rollNumber);
+        }
+
         public async Task UpdateAsync(Student student)
         {
             _context.Students.Update(student);
