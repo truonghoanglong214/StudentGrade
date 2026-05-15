@@ -1,8 +1,6 @@
 using StudentGrade.Core.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudentGrade.Application.Interfaces.IRepositories
 {
@@ -12,6 +10,6 @@ namespace StudentGrade.Application.Interfaces.IRepositories
         Task<List<Student>> GetByClassNameWithScoresAsync(string className);
         Task AddRangeAsync(List<Student> students);
         Task UpdateAsync(Student student);
-        Task<bool?> IsRollNumberExists(string rollNumber);
+        Task<bool> IsRollNumberExists(string rollNumber);
     }
 }

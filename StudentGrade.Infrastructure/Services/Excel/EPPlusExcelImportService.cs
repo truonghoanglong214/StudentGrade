@@ -1,4 +1,4 @@
-﻿using OfficeOpenXml;
+using OfficeOpenXml;
 using StudentGrade.Application.DTOs.GradeDtos;
 using StudentGrade.Application.Interfaces.IServices;
 using System.Text.RegularExpressions;
@@ -171,13 +171,10 @@ namespace StudentGrade.Infrastructure.Services.Excel
             Dictionary<int, string> headers,
             string columnName)
         {
-            int columnIndex = headers
-                .First(x => x.Value == columnName)
-                .Key;
+            var entry = headers.FirstOrDefault(x => x.Value.Equals(columnName, StringComparison.OrdinalIgnoreCase));
+            if (entry.Key == 0) return string.Empty; // column not found
 
-            return worksheet.Cells[row, columnIndex]
-                .Text
-                .Trim();
+            return worksheet.Cells[row, entry.Key].Text.Trim();
         }
 
         private static AssessmentColumnInfo ParseAssessmentColumn(
