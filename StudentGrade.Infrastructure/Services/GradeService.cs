@@ -55,8 +55,7 @@ namespace StudentGrade.Infrastructure.Services
             {
                 subject = new Subject
                 {
-                    SubjectCode = request.SubjectCode,
-                    SubjectName = request.SubjectCode   
+                    SubjectCode = request.SubjectCode
                 };
                 await _subjectRepository.AddAsync(subject);
             }
@@ -86,7 +85,6 @@ namespace StudentGrade.Infrastructure.Services
                         MemberCode = studentRow.MemberCode,
                         FullName = studentRow.FullName,
                         Email = studentRow.Email,
-                        ClassName = studentRow.ClassName,
                         CreatedAt = DateTime.UtcNow
                     };
                     await _studentRepository.AddAsync(student);
@@ -134,7 +132,7 @@ namespace StudentGrade.Infrastructure.Services
                     }
 
                     bool alreadyExists = await _studentScoreRepository
-                        .IsStudentScoreExistAsync(student.Id, assessment.Id, scoreDto.IsResit);
+                        .IsStudentScoreExistAsync(student.Id, assessment.Id, request.Semester, scoreDto.IsResit);
 
                     if (alreadyExists)
                     {
@@ -149,13 +147,15 @@ namespace StudentGrade.Infrastructure.Services
 
                     validScores.Add(new StudentScore
                     {
-                        StudentId   = student.Id,
+                        StudentId    = student.Id,
                         AssessmentId = assessment.Id,
-                        Score       = scoreDto.Score,
-                        Comment     = scoreDto.Comment,
-                        IsResit     = scoreDto.IsResit,
-                        ExamDate    = studentRow.ExamDate,
-                        ExamNote    = studentRow.ExamNote
+                        Semester     = request.Semester,
+                        ClassName    = studentRow.ClassName,
+                        Score        = scoreDto.Score,
+                        Comment      = scoreDto.Comment,
+                        IsResit      = scoreDto.IsResit,
+                        ExamDate     = studentRow.ExamDate,
+                        ExamNote     = studentRow.ExamNote
                     });
                 }
             }
@@ -203,7 +203,7 @@ namespace StudentGrade.Infrastructure.Services
             if (assessments.Count == 0)
                 throw new InvalidOperationException($"No assessments found for subject '{request.SubjectCode}'.");
 
-            var students = await _studentRepository.GetByClassNameWithScoresAsync(request.ClassName);
+            var students = await _studentRepository.GetByClassAndSemesterWithScoresAsync(request.ClassName, request.Semester);
             if (students.Count == 0)
                 throw new InvalidOperationException($"No students found in class '{request.ClassName}'.");
 

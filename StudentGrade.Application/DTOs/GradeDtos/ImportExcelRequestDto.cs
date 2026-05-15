@@ -10,5 +10,8 @@ namespace StudentGrade.Application.DTOs.GradeDtos
 
         [Required]
         public string SubjectCode { get; set; } = string.Empty;
+
+        [Required]
+        public string Semester { get; set; } = string.Empty;
     }
 }

@@ -29,16 +29,17 @@ namespace StudentGrade.Infrastructure.Repositories
             return await _context.StudentScores
                 .Include(s => s.Student)
                 .Include(s => s.Assessment)
-                .Where(s => s.Student.ClassName == className)
+                .Where(s => s.ClassName == className)
                 .ToListAsync();
         }
 
-        public async Task<bool> IsStudentScoreExistAsync(Guid studentId, Guid assessmentId, bool isResit)
+        public async Task<bool> IsStudentScoreExistAsync(Guid studentId, Guid assessmentId, string semester, bool isResit)
         {
             // Bug fix: was checking x.Id == studentId, should be x.StudentId == studentId
             return await _context.StudentScores
                 .AnyAsync(x => x.StudentId == studentId
                             && x.AssessmentId == assessmentId
+                            && x.Semester == semester
                             && x.IsResit == isResit);
         }
     }

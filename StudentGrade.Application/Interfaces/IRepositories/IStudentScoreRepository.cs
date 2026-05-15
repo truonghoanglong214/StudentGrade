@@ -9,6 +9,6 @@ namespace StudentGrade.Application.Interfaces.IRepositories
     {
         Task<List<StudentScore>> GetByClassNameAsync(string className);
         Task AddRangeAsync(List<StudentScore> scores);
-        Task<bool> IsStudentScoreExistAsync(Guid studentId, Guid assessmentId, bool isResit);
+        Task<bool> IsStudentScoreExistAsync(Guid studentId, Guid assessmentId, string semester, bool isResit);
     }
 }

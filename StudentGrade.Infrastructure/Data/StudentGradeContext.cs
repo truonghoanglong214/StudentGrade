@@ -132,9 +132,6 @@ public partial class StudentGradeContext : DbContext
             entity.Property(e => e.SubjectCode)
                 .IsRequired()
                 .HasMaxLength(50);
-            entity.Property(e => e.SubjectName)
-                .IsRequired()
-                .HasMaxLength(255);
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
         });
 
@@ -147,9 +144,6 @@ public partial class StudentGradeContext : DbContext
             entity.HasIndex(e => e.RollNumber, "UQ__Students__E9F06F16CA514B74").IsUnique();
 
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
-            entity.Property(e => e.ClassName)
-                .IsRequired()
-                .HasMaxLength(100);
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
             entity.Property(e => e.Email).HasMaxLength(255);
             entity.Property(e => e.FullName)
@@ -171,6 +165,8 @@ public partial class StudentGradeContext : DbContext
 
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
+            entity.Property(e => e.Semester).IsRequired().HasMaxLength(50);
+            entity.Property(e => e.ClassName).IsRequired().HasMaxLength(100);
             entity.Property(e => e.Score).HasPrecision(5, 2);
 
             entity.HasOne(d => d.Assessment).WithMany(p => p.StudentScores)

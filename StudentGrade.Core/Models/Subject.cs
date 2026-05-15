@@ -9,8 +9,6 @@ public partial class Subject
 
     public string SubjectCode { get; set; } = null!;
 
-    public string SubjectName { get; set; } = null!;
-
     public DateTime CreatedAt { get; set; }
 
     public virtual ICollection<Assessment> Assessments { get; set; } = new List<Assessment>();

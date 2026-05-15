@@ -26,12 +26,12 @@ namespace StudentGrade.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Student>> GetByClassNameWithScoresAsync(string className)
+        public async Task<List<Student>> GetByClassAndSemesterWithScoresAsync(string className, string semester)
         {
             return await _context.Students
-                .Include(s => s.StudentScores)
+                .Include(s => s.StudentScores.Where(ss => ss.ClassName == className && ss.Semester == semester))
                 .ThenInclude(ss => ss.Assessment)
-                .Where(s => s.ClassName == className)
+                .Where(s => s.StudentScores.Any(ss => ss.ClassName == className && ss.Semester == semester))
                 .ToListAsync();
         }
 
