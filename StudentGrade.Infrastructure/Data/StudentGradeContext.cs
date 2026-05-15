@@ -171,6 +171,7 @@ public partial class StudentGradeContext : DbContext
 
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
+            entity.Property(e => e.Score).HasPrecision(5, 2);
 
             entity.HasOne(d => d.Assessment).WithMany(p => p.StudentScores)
                 .HasForeignKey(d => d.AssessmentId)

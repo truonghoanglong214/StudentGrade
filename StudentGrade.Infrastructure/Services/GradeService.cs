@@ -264,7 +264,7 @@ namespace StudentGrade.Infrastructure.Services
                 Version  = "1.0",
                 Semester = request.Semester,
                 Login    = string.Empty,
-                Password = request.Password,
+                Password = GetMd5Hash(request.Password),
                 SubjectClasses = new List<FgSubjectClassDto>
                 {
                     new FgSubjectClassDto
@@ -296,6 +296,17 @@ namespace StudentGrade.Infrastructure.Services
                 FileName    = fileName,
                 FileContent = fileBytes
             };
+        }
+
+        private string GetMd5Hash(string input)
+        {
+            if (string.IsNullOrEmpty(input)) return string.Empty;
+            using (var md5 = System.Security.Cryptography.MD5.Create())
+            {
+                var inputBytes = System.Text.Encoding.ASCII.GetBytes(input);
+                var hashBytes = md5.ComputeHash(inputBytes);
+                return Convert.ToHexString(hashBytes).ToLower();
+            }
         }
     }
 }

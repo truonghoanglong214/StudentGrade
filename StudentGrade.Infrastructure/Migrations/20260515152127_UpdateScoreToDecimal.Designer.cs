@@ -12,8 +12,8 @@ using StudentGrade.Infrastructure.Data;
 namespace StudentGrade.Infrastructure.Migrations
 {
     [DbContext(typeof(StudentGradeContext))]
-    [Migration("20260515023248_StudentGrade")]
-    partial class StudentGrade
+    [Migration("20260515152127_UpdateScoreToDecimal")]
+    partial class UpdateScoreToDecimal
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -287,8 +287,9 @@ namespace StudentGrade.Infrastructure.Migrations
                     b.Property<bool>("IsResit")
                         .HasColumnType("bit");
 
-                    b.Property<double?>("Score")
-                        .HasColumnType("float");
+                    b.Property<decimal?>("Score")
+                        .HasPrecision(5, 2)
+                        .HasColumnType("decimal(5,2)");
 
                     b.Property<Guid>("StudentId")
                         .HasColumnType("uniqueidentifier");
