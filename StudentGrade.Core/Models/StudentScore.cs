@@ -13,7 +13,7 @@ public partial class StudentScore
 
     public Guid AssessmentId { get; set; }
 
-    public double? Score { get; set; }
+    public decimal? Score { get; set; }
 
     public string Comment { get; set; }
 

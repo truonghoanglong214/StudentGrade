@@ -2,9 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using StudentGrade.Application.Interfaces.IRepositories;
 using StudentGrade.Core.Models;
 using StudentGrade.Infrastructure.Data;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace StudentGrade.Infrastructure.Repositories
 {
@@ -32,12 +29,17 @@ namespace StudentGrade.Infrastructure.Repositories
                 .ToListAsync();
         }
 
+        public async Task<Student?> GetByIdAsync(Guid studentId)
+        {
+            return await _context.Students.FirstOrDefaultAsync(x => x.Id == studentId);
+        }
+
         public async Task<Student?> GetByRollNumberAsync(string rollNumber)
         {
             return await _context.Students.FirstOrDefaultAsync(s => s.RollNumber == rollNumber);
         }
 
-        public async Task<bool?> IsRollNumberExists(string rollNumber)
+        public async Task<bool> IsRollNumberExists(string rollNumber)
         {
             return await _context.Students.AnyAsync(x => x.RollNumber == rollNumber);
         }
