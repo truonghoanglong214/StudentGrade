@@ -20,6 +20,12 @@ namespace StudentGrade.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task AddAsync(Student student)
+        {
+            await _context.Students.AddAsync(student);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<List<Student>> GetByClassNameWithScoresAsync(string className)
         {
             return await _context.Students

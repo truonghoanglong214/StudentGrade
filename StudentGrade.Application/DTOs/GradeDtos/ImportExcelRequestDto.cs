@@ -10,8 +10,5 @@ namespace StudentGrade.Application.DTOs.GradeDtos
 
         [Required]
         public string SubjectCode { get; set; } = string.Empty;
-
-        [Required]
-        public Guid AssessmentId { get; set; }  
     }
 }

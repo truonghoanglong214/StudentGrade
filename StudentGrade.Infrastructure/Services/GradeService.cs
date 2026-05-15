@@ -43,9 +43,6 @@ namespace StudentGrade.Infrastructure.Services
             _transaction = transaction;
         }
 
-        // ─────────────────────────────────────────────────────────────────
-        // IMPORT
-        // ─────────────────────────────────────────────────────────────────
         public async Task<ImportResultDto> ImportFromExcelAsync(
             ImportExcelRequestDto request,
             Guid importedBy)
@@ -59,7 +56,7 @@ namespace StudentGrade.Infrastructure.Services
                 subject = new Subject
                 {
                     SubjectCode = request.SubjectCode,
-                    SubjectName = request.SubjectCode   // default name = code; can be updated later
+                    SubjectName = request.SubjectCode   
                 };
                 await _subjectRepository.AddAsync(subject);
             }
@@ -83,13 +80,16 @@ namespace StudentGrade.Infrastructure.Services
                 var student = await _studentRepository.GetByRollNumberAsync(studentRow.RollNumber);
                 if (student == null)
                 {
-                    errors.Add(new ImportErrorDto
+                    student = new Student
                     {
-                        RowNumber = studentRow.RowNumber,
-                        Field = "RollNumber",
-                        Message = $"Student '{studentRow.RollNumber}' not found in the system."
-                    });
-                    continue;
+                        RollNumber = studentRow.RollNumber,
+                        MemberCode = studentRow.MemberCode,
+                        FullName = studentRow.FullName,
+                        Email = studentRow.Email,
+                        ClassName = studentRow.ClassName,
+                        CreatedAt = DateTime.UtcNow
+                    };
+                    await _studentRepository.AddAsync(student);
                 }
 
                 foreach (var scoreDto in studentRow.Scores)
@@ -110,7 +110,6 @@ namespace StudentGrade.Infrastructure.Services
                         await _assessmentRepository.AddAsync(assessment);
                     }
 
-                    // Validate score range
                     if (scoreDto.Score.HasValue && (scoreDto.Score < 0 || scoreDto.Score > 10))
                     {
                         errors.Add(new ImportErrorDto
@@ -122,7 +121,7 @@ namespace StudentGrade.Infrastructure.Services
                         continue;
                     }
 
-                    // Validate resit support
+
                     if (scoreDto.IsResit && !assessment.IsResitSupported)
                     {
                         errors.Add(new ImportErrorDto
@@ -134,7 +133,6 @@ namespace StudentGrade.Infrastructure.Services
                         continue;
                     }
 
-                    // Check for duplicate score
                     bool alreadyExists = await _studentScoreRepository
                         .IsStudentScoreExistAsync(student.Id, assessment.Id, scoreDto.IsResit);
 
@@ -162,7 +160,6 @@ namespace StudentGrade.Infrastructure.Services
                 }
             }
 
-            // 4. Persist ImportHistory + all valid scores in ONE transaction
             var importHistory = new ImportHistory
             {
                 FileName    = request.File.FileName,
@@ -177,8 +174,6 @@ namespace StudentGrade.Infrastructure.Services
             await _transaction.ExecuteAsync(async () =>
             {
                 await _importHistoryRepository.AddAsync(importHistory);
-
-                // Stamp every score with the import file reference
                 foreach (var score in validScores)
                     score.ImportedFileId = importHistory.Id;
 
@@ -221,7 +216,7 @@ namespace StudentGrade.Infrastructure.Services
                     components.Add($"{a.AssessmentCode} Resit");
             }
 
-            // 5. Map each Student → FgStudentDto
+            //  Map each Student → FgStudentDto
             var fgStudents = students.Select(s =>
             {
                 var grades = new List<FgGradeComponentDto>();
@@ -263,7 +258,7 @@ namespace StudentGrade.Infrastructure.Services
                 };
             }).ToList();
 
-            // 6. Assemble the full FgGradeDataDto
+            // Assemble the full FgGradeDataDto
             var fgData = new FgGradeDataDto
             {
                 Version  = "1.0",
@@ -282,11 +277,11 @@ namespace StudentGrade.Infrastructure.Services
                 }
             };
 
-            // 7. Serialize to binary .fg
+            // Serialize to binary .fg
             var fileBytes = _fgSerializer.Serialize(fgData);
             var fileName  = $"{request.SubjectCode}_{request.ClassName}_{request.Semester}.fg";
 
-            // 8. Log the export
+            // Log the export
             var exportRecord = new Fgexport
             {
                 FileName       = fileName,

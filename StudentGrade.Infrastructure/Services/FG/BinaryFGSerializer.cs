@@ -11,11 +11,7 @@ namespace StudentGrade.Infrastructure.Services.FG
 {
     public class BinaryFGSerializer : IFGSerializer
     {
-        /// <summary>
-        /// Serializes grade data into binary .fg format using FuGradeLib and BinaryFormatter.
-        /// NOTE: BinaryFormatter is intentionally used here because the .fg file format
-        /// requires it. EnableUnsafeBinaryFormatterSerialization is set in the csproj.
-        /// </summary>
+        
         public byte[] Serialize(FgGradeDataDto data)
         {
             var teacherGrade = new TeacherGrade

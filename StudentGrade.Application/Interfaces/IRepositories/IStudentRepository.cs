@@ -8,6 +8,7 @@ namespace StudentGrade.Application.Interfaces.IRepositories
     {
         Task<Student?> GetByRollNumberAsync(string rollNumber);
         Task<List<Student>> GetByClassNameWithScoresAsync(string className);
+        Task AddAsync(Student student);
         Task AddRangeAsync(List<Student> students);
         Task UpdateAsync(Student student);
         Task<bool> IsRollNumberExists(string rollNumber);
